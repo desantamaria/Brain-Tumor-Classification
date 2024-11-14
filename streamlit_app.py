@@ -19,7 +19,7 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key='')
+client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=os.getenv("GROQ_API_KEY"))
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
