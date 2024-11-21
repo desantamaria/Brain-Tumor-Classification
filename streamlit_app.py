@@ -18,10 +18,10 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=os.getenv("GROQ_API_KEY"))
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 output_dir = 'saliency_maps'
 os.makedirs(output_dir, exist_ok=True)
