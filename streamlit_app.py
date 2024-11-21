@@ -220,9 +220,11 @@ def load_xception_model(model_path):
                          Precision(),
                          Recall()])
 
+  print(model)
+
   model.load_weights(model_path)
 
-  print(model)
+  
 
   return model
 
