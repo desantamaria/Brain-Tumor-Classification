@@ -92,6 +92,8 @@ def generate_explanation(img_path, model_prediction, confidence, gen_model):
   - [Bullet point 2]
   - [Bullet point 3]
 
+  TESTESTINGASSGISNDGSDF
+
   **Recommended Follow-up:**
   [1-2 specific recommendations for clinical validation or further testing]
   </Output Format>
