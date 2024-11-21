@@ -157,7 +157,7 @@ def generate_saliency_map(model, img_array, class_index, img_size):
   mask = (x - center[0])**2 + (y - center[1])**2 <= radius**2
 
   # Apply mask to gradients
-  gradients = gradients * mask
+  gradients = mask * gradients
 
   # Normalize only the brain area
   brain_gradients = gradients[mask]
@@ -193,6 +193,8 @@ def generate_saliency_map(model, img_array, class_index, img_size):
   # Save the saliency map
   cv2.imwrite(saliency_map_path, cv2.cvtColor(superimposed_img, cv2.COLOR_RGB2BGR))
 
+  print(superimposed_img)
+
   return superimposed_img
 
 def load_xception_model(model_path):
@@ -219,6 +221,8 @@ def load_xception_model(model_path):
                          Recall()])
 
   model.load_weights(model_path)
+
+  print(model)
 
   return model
 
