@@ -116,6 +116,7 @@ def generate_explanation(img_path, model_prediction, confidence, gen_model):
   Acknowledge limitations of AI-based analysis when appropriate
 
   Please verify step by step.
+  Acknowledge limitations of AI-based analysis when appropriate
   """
 
   img = PIL.Image.open(img_path)
