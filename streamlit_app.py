@@ -133,7 +133,32 @@ def generate_explanation(img_path, model_prediction, confidence, gen_model):
                                                     }])
     return raw_response.choices[0].message.content
 
+def load_xception_model(model_path):
+  img_shape=(299, 299, 3)
+  base_model = tf.keras.applications.Xception(include_top=False, weights="imagenet",
+                                              input_shape=img_shape, pooling='max')
 
+  model = Sequential([
+      base_model,
+      Flatten(),
+      Dropout(rate=0.3),
+      Dense(128, activation='relu'),
+      Dropout(rate=0.25),
+      Dense(4, activation='softmax')
+  ])
+
+  model.build((None,) + img_shape)
+
+  # Compile the model
+  model.compile(Adamax(learning_rate=0.001),
+                loss='categorical_crossentropy',
+                metrics=['accuracy',
+                         Precision(),
+                         Recall()])
+
+  model.load_weights(model_path)
+
+  return model
 
 def generate_saliency_map(model, img_array, class_index, img_size):
   with tf.GradientTape() as tape:
@@ -194,34 +219,6 @@ def generate_saliency_map(model, img_array, class_index, img_size):
   cv2.imwrite(saliency_map_path, cv2.cvtColor(superimposed_img, cv2.COLOR_RGB2BGR))
 
   return superimposed_img
-
-def load_xception_model(model_path):
-  img_shape=(299, 299, 3)
-  base_model = tf.keras.applications.Xception(include_top=False, weights="imagenet",
-                                              input_shape=img_shape, pooling='max')
-
-  model = Sequential([
-      base_model,
-      Flatten(),
-      Dropout(rate=0.3),
-      Dense(128, activation='relu'),
-      Dropout(rate=0.25),
-      Dense(4, activation='softmax')
-  ])
-
-  model.build((None,) + img_shape)
-
-  # Compile the model
-  model.compile(Adamax(learning_rate=0.001),
-                loss='categorical_crossentropy',
-                metrics=['accuracy',
-                         Precision(),
-                         Recall()])
-
-  model.load_weights(model_path)
-
-  return model
-
 st.title("Brain Tumor Classification")
 
 st.write("Upload an image of a brain MRI scan to classify.")
